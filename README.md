@@ -6,8 +6,8 @@ Sistema simples de locação e controle de frota, usado em aula para o deploy nu
 |-------|-----------|
 | [`backend/`](backend/) | API Spring Boot (Java 17), JWT com roles `ADMIN` / `USER`, PostgreSQL em produção |
 | [`frontend/`](frontend/) | Angular + MDBootstrap |
-| [`configuracoes/`](configuracoes/) | `banco.sql`, config do Apache2, serviço systemd e modelo do `.env` |
-| [`INSTRUCOES.md`](INSTRUCOES.md) | **passo a passo do deploy**: chave `.pem`, envio por `scp`, PostgreSQL, JDK 17, Apache2, portas e testes |
+| [`configuracoes/`](configuracoes/) | `banco.sql`, config do Apache2 e serviço systemd |
+| [`INSTRUCOES.md`](INSTRUCOES.md) | passo a passo do deploy |
 
 ## Rodar localmente
 
