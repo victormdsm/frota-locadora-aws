@@ -38,7 +38,7 @@
                             <td>{{ l.usuario.nome }}<div class="small text-muted">{{ l.usuario.username }}</div></td>
                         }
                         <td class="small">{{ l.dataInicio | date:'dd/MM/yyyy' }} → {{ l.dataFimPrevista | date:'dd/MM/yyyy' }}</td>
-                        <td class="small">{{ l.dataDevolucao ? (l.dataDevolucao | date:'dd/MM/yyyy') : '—' }}</td>
+                        <td class="small">{{ l.dataDevolucao ? (l.dataDevolucao | date:'dd/MM/yyyy') : 'em aberto' }}</td>
                         <td class="text-end">{{ l.valorTotal | currency:'BRL' }}</td>
                         <td><span [class]="l.status | statusBadge">{{ l.status | statusLabel }}</span></td>
                         <td class="text-end text-nowrap">

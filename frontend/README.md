@@ -1,4 +1,4 @@
-# Frota Locadora — Front-end (Angular 19 + MDBootstrap)
+# Frota Locadora: front-end (Angular 19 + MDBootstrap)
 
 Front do sistema de locação/controle de frota. Consome a API `backend-aula-4o-periodo` com login JWT.
 
@@ -23,9 +23,9 @@ Usuários de teste (criados pelo backend): `admin / admin123` (ADMIN) e `usuario
 
 ## Peças de segurança no front
 
-- `services/auth.service.ts` — faz login, guarda o token no `localStorage`, lê a role e a expiração do JWT
-- `interceptors/auth.interceptor.ts` — envia `Authorization: Bearer <token>`; em 401 volta pro login
-- `guards/auth.guard.ts` — `authGuard` (precisa estar logado) e `adminGuard` (precisa ser ADMIN)
+- `services/auth.service.ts`: faz login, guarda o token no `localStorage`, lê a role e a expiração do JWT
+- `interceptors/auth.interceptor.ts`: envia `Authorization: Bearer <token>`; em 401 volta pro login
+- `guards/auth.guard.ts`: `authGuard` (precisa estar logado) e `adminGuard` (precisa ser ADMIN)
 
 > O guard só esconde telas. Quem **garante** a permissão é o backend (403).
 

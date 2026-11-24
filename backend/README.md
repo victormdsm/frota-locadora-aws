@@ -1,4 +1,4 @@
-# backend-aula-4o-periodo — Frota Locadora (API)
+# backend-aula-4o-periodo: Frota Locadora (API)
 
 API REST de **locação e controle de frota** com Spring Boot, Spring Security (JWT) e SQLite.
 Rotas autenticadas por token e autorizadas por **perfil (role)**: `ADMIN` e `USER`.

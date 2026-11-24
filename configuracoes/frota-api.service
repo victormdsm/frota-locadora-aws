@@ -1,6 +1,6 @@
 # /etc/systemd/system/frota-api.service
 [Unit]
-Description=Frota Locadora - API Spring Boot
+Description=Frota Locadora, API Spring Boot
 After=network.target postgresql.service
 Requires=postgresql.service
 

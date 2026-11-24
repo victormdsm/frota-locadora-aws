@@ -1,8 +1,5 @@
--- =====================================================================
---  Frota Locadora — script do banco (PostgreSQL)
---  Como usar (na EC2):  sudo -u postgres psql -d frota -f banco.sql
---  ou abra o psql e cole tudo de uma vez.
--- =====================================================================
+-- Frota Locadora: script do banco (PostgreSQL)
+-- Abra o psql como o usuario frota e cole este arquivo inteiro.
 
 -- ---------- Tabelas ----------
 
