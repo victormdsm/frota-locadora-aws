@@ -29,8 +29,12 @@ ssh -i "chave aula.pem" ubuntu@3.148.244.143
 Em `frontend/src/environments/environment.ts`: `apiUrl: 'http://3.148.244.143:8080'`
 
 ```bash
-cd backend && ./mvnw clean package -DskipTests && cd ..     # Windows: .\mvnw.cmd
-cd frontend && npm install && npx ng build && cd ..
+cd backend
+./mvnw clean package -DskipTests     # Windows: .\mvnw.cmd clean package -DskipTests
+cd ../frontend
+npm install
+npx ng build
+cd ..
 ```
 
 ## 3. Enviar os arquivos (na raiz do repositório)
