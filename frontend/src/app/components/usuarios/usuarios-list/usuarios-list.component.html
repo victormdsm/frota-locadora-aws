@@ -1,0 +1,71 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0">Usuários</h3>
+        <button type="button" class="btn btn-primary" (click)="novo()"><i class="fas fa-user-plus me-1"></i>Novo usuário</button>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr><th>Nome</th><th>Usuário</th><th>Perfil</th><th class="text-end">Ações</th></tr>
+                </thead>
+                <tbody>
+                    @for (u of lista; track u.id) {
+                    <tr>
+                        <td>{{ u.nome }}</td>
+                        <td class="text-muted">{{ u.username }}</td>
+                        <td>
+                            <span class="badge" [class.badge-warning]="u.role === 'ADMIN'" [class.badge-info]="u.role === 'USER'">{{ u.role }}</span>
+                        </td>
+                        <td class="text-end">
+                            <button type="button" class="btn btn-link btn-sm px-2" title="Editar" (click)="editar(u)"><i class="fas fa-pen"></i></button>
+                            @if (u.username !== authService.sessao?.username) {
+                                <button type="button" class="btn btn-link btn-sm px-2 text-danger" title="Excluir" (click)="deletar(u)"><i class="fas fa-trash"></i></button>
+                            }
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #modalUsuario>
+    <div class="modal-header">
+        <h5 class="modal-title">{{ usuarioEdit.id ? 'Editar usuário' : 'Novo usuário' }}</h5>
+        <button type="button" class="btn-close" aria-label="Fechar" (click)="modalRef.close()"></button>
+    </div>
+    <div class="modal-body">
+        <form (ngSubmit)="salvar()">
+            <div class="mb-3">
+                <label class="form-label small text-muted" for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" class="form-control" [(ngModel)]="usuarioEdit.nome" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label small text-muted" for="username">Usuário (login)</label>
+                <input type="text" id="username" name="username" class="form-control" [(ngModel)]="usuarioEdit.username"
+                       [disabled]="!!usuarioEdit.id" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label small text-muted" for="senha">
+                    {{ usuarioEdit.id ? 'Nova senha (deixe em branco para manter)' : 'Senha (mín. 6 caracteres)' }}</label>
+                <input type="password" id="senha" name="senha" class="form-control" autocomplete="new-password"
+                       [(ngModel)]="usuarioEdit.senha" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label small text-muted" for="role">Perfil</label>
+                <select id="role" name="role" class="form-select" [(ngModel)]="usuarioEdit.role">
+                    <option value="USER">USER — aluga veículos</option>
+                    <option value="ADMIN">ADMIN — gerencia tudo</option>
+                </select>
+            </div>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save me-1"></i>Salvar</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

@@ -1,0 +1,17 @@
+# /etc/systemd/system/frota-api.service
+[Unit]
+Description=Frota Locadora - API Spring Boot
+After=network.target postgresql.service
+Requires=postgresql.service
+
+[Service]
+User=frota
+WorkingDirectory=/opt/frota
+EnvironmentFile=/opt/frota/frota.env
+ExecStart=/usr/bin/java -Xms128m -Xmx512m -jar /opt/frota/frota-api.jar
+SuccessExitStatus=143
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

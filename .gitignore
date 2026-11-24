@@ -1,0 +1,10 @@
+# chaves e segredos NUNCA vão para o git
+*.pem
+*.key
+frota.env
+.env
+
+.DS_Store
+.idea/
+.vscode/*
+!frontend/.vscode/

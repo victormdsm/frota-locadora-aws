@@ -1,0 +1,18 @@
+.resumo {
+    cursor: pointer;
+    transition: transform .15s;
+    border-top: 3px solid transparent;
+
+    &:hover { transform: translateY(-2px); }
+    &.selecionado { border-top-color: #3b71ca; }
+}
+
+.placa {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    letter-spacing: .08em;
+    background: #f1f3f5;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 1px 6px;
+}

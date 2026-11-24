@@ -1,0 +1,45 @@
+<form (ngSubmit)="salvar()">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label small text-muted" for="marca">Marca</label>
+            <select id="marca" name="marca" class="form-select" [(ngModel)]="carro.marca" [compareWith]="compararMarca">
+                @for (marca of marcas; track marca.id) {
+                    <option [ngValue]="marca">{{ marca.nome }}</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label small text-muted" for="modelo">Modelo</label>
+            <input type="text" id="modelo" name="modelo" class="form-control" [(ngModel)]="carro.modelo" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label small text-muted" for="placa">Placa</label>
+            <input type="text" id="placa" name="placa" class="form-control text-uppercase" maxlength="8" [(ngModel)]="carro.placa" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label small text-muted" for="ano">Ano</label>
+            <input type="number" id="ano" name="ano" class="form-control" [(ngModel)]="carro.ano" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label small text-muted" for="valor">Diária (R$)</label>
+            <input type="number" step="0.01" id="valor" name="valor" class="form-control" [(ngModel)]="carro.valorDiaria" />
+        </div>
+        @if (carro.status !== 'LOCADO') {
+            <div class="col-12">
+                <label class="form-label small text-muted" for="status">Situação</label>
+                <select id="status" name="status" class="form-select" [(ngModel)]="carro.status">
+                    <option value="DISPONIVEL">Disponível</option>
+                    <option value="MANUTENCAO">Manutenção</option>
+                </select>
+            </div>
+        } @else {
+            <div class="col-12 small text-muted">
+                <i class="fas fa-info-circle me-1"></i>Carro locado: a situação muda na devolução.
+            </div>
+        }
+    </div>
+
+    <div class="text-end mt-4">
+        <button type="submit" class="btn btn-primary"><i class="fas fa-save me-1"></i>Salvar</button>
+    </div>
+</form>

@@ -1,0 +1,115 @@
+<div class="container mt-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+        <div>
+            <h3 class="mb-0">{{ authService.isAdmin() ? 'Frota' : 'Alugue um carro' }}</h3>
+            <span class="text-muted small">{{ lista.length }} veículos cadastrados</span>
+        </div>
+        @if (authService.isAdmin()) {
+            <button type="button" class="btn btn-primary" (click)="novoCarro()">
+                <i class="fas fa-plus me-1"></i>Novo veículo</button>
+        }
+    </div>
+
+    <!-- Resumo / filtros -->
+    <div class="row g-3 mb-3">
+        @for (f of [
+            {k: 'TODOS', t: 'Todos', n: lista.length, i: 'fa-car', c: 'text-dark'},
+            {k: 'DISPONIVEL', t: 'Disponíveis', n: contar('DISPONIVEL'), i: 'fa-check-circle', c: 'text-success'},
+            {k: 'LOCADO', t: 'Locados', n: contar('LOCADO'), i: 'fa-key', c: 'text-primary'},
+            {k: 'MANUTENCAO', t: 'Manutenção', n: contar('MANUTENCAO'), i: 'fa-tools', c: 'text-warning'}
+        ]; track f.k) {
+            <div class="col-6 col-md-3">
+                <div class="card resumo h-100" [class.selecionado]="filtro === f.k" (click)="filtro = $any(f.k)">
+                    <div class="card-body py-3 d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="small text-muted">{{ f.t }}</div>
+                            <div class="fs-4 fw-bold">{{ f.n }}</div>
+                        </div>
+                        <i class="fas {{ f.i }} fa-2x {{ f.c }} opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="mb-3" style="max-width: 320px">
+                <div class="input-group">
+                    <span class="input-group-text border-0 bg-light"><i class="fas fa-search"></i></span>
+                    <input type="search" class="form-control" placeholder="Buscar modelo, placa ou marca"
+                           [(ngModel)]="busca" />
+                </div>
+            </div>
+
+            @if (carregando) {
+                <div class="text-center py-5"><div class="spinner-border text-primary"></div></div>
+            } @else {
+            <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Veículo</th>
+                        <th>Placa</th>
+                        <th>Ano</th>
+                        <th class="text-end">Diária</th>
+                        <th>Situação</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (carro of listaFiltrada; track carro.id) {
+                    <tr>
+                        <td>
+                            <div class="fw-bold">{{ carro.modelo }}</div>
+                            <div class="small text-muted">{{ carro.marca?.nome }}</div>
+                        </td>
+                        <td><span class="placa">{{ carro.placa }}</span></td>
+                        <td>{{ carro.ano }}</td>
+                        <td class="text-end">{{ carro.valorDiaria | currency:'BRL' }}</td>
+                        <td><span [class]="carro.status | statusBadge">{{ carro.status | statusLabel }}</span></td>
+                        <td class="text-end text-nowrap">
+                            @if (carro.status === 'DISPONIVEL') {
+                                <button type="button" class="btn btn-success btn-sm me-1" (click)="abrirLocacao(carro)">
+                                    <i class="fas fa-key me-1"></i>Locar</button>
+                            }
+                            @if (authService.isAdmin()) {
+                                <button type="button" class="btn btn-link btn-sm px-2" title="Editar" (click)="editarCarro(carro)">
+                                    <i class="fas fa-pen"></i></button>
+                                <button type="button" class="btn btn-link btn-sm px-2 text-danger" title="Excluir" (click)="deletar(carro)">
+                                    <i class="fas fa-trash"></i></button>
+                            }
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr><td colspan="6" class="text-center text-muted py-4">Nenhum veículo encontrado.</td></tr>
+                    }
+                </tbody>
+            </table>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<ng-template #modalCarroDetails>
+    <div class="modal-header">
+        <h5 class="modal-title">{{ carroEdit.id ? 'Editar veículo' : 'Novo veículo' }}</h5>
+        <button type="button" class="btn-close" aria-label="Fechar" (click)="modalRef.close()"></button>
+    </div>
+    <div class="modal-body">
+        <app-carros-details [carro]="carroEdit" [marcas]="marcas" (retorno)="retornoDetalhe($event)"></app-carros-details>
+    </div>
+</ng-template>
+
+<ng-template #modalLocar>
+    <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-key me-2"></i>Nova locação</h5>
+        <button type="button" class="btn-close" aria-label="Fechar" (click)="modalRef.close()"></button>
+    </div>
+    <div class="modal-body">
+        <app-locacao-form [carro]="carroLocar" [usuarios]="usuarios" [admin]="authService.isAdmin()"
+                          (confirmar)="confirmarLocacao($event)"></app-locacao-form>
+    </div>
+</ng-template>

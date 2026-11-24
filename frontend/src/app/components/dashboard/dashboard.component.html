@@ -1,0 +1,63 @@
+<div class="container mt-4">
+    <h3 class="mb-1">Olá, {{ authService.sessao?.nome }}</h3>
+    <p class="text-muted">Resumo da frota e das locações.</p>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3">
+            <div class="card h-100"><div class="card-body">
+                <div class="small text-muted">Veículos na frota</div>
+                <div class="fs-3 fw-bold">{{ carros.length }}</div>
+                <div class="small"><span class="text-success">{{ contar('DISPONIVEL') }} disponíveis</span> ·
+                    <span class="text-warning">{{ contar('MANUTENCAO') }} em manutenção</span></div>
+            </div></div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="card h-100"><div class="card-body">
+                <div class="small text-muted">Ocupação</div>
+                <div class="fs-3 fw-bold">{{ ocupacao }}%</div>
+                <div class="progress mt-2" style="height: 6px">
+                    <div class="progress-bar" role="progressbar" [style.width.%]="ocupacao"></div>
+                </div>
+            </div></div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="card h-100"><div class="card-body">
+                <div class="small text-muted">Locações ativas</div>
+                <div class="fs-3 fw-bold text-primary">{{ ativas.length }}</div>
+                <div class="small text-muted">{{ previsto | currency:'BRL' }} previstos</div>
+            </div></div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="card h-100"><div class="card-body">
+                <div class="small text-muted">Faturado (finalizadas)</div>
+                <div class="fs-3 fw-bold text-success">{{ faturamento | currency:'BRL' }}</div>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="mb-0">Locações em andamento</h6>
+                <a routerLink="/sistema/locacoes" class="small">Ver todas</a>
+            </div>
+            <table class="table table-sm align-middle mb-0">
+                <thead class="table-light">
+                    <tr><th>Veículo</th><th>Cliente</th><th>Devolução prevista</th><th class="text-end">Valor</th></tr>
+                </thead>
+                <tbody>
+                    @for (l of ativas; track l.id) {
+                        <tr>
+                            <td>{{ l.carro.modelo }} <span class="small text-muted">{{ l.carro.placa }}</span></td>
+                            <td>{{ l.usuario.nome }}</td>
+                            <td>{{ l.dataFimPrevista | date:'dd/MM/yyyy' }}</td>
+                            <td class="text-end">{{ l.valorTotal | currency:'BRL' }}</td>
+                        </tr>
+                    } @empty {
+                        <tr><td colspan="4" class="text-center text-muted py-3">Nenhuma locação em andamento.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

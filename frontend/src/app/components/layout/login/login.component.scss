@@ -1,0 +1,25 @@
+.login-fundo {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1e3a5f 0%, #3b71ca 100%);
+    padding: 16px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+}
+
+.marca {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #e7eefa;
+    color: #3b71ca;
+    font-size: 1.5rem;
+}
