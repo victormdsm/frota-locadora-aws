@@ -5,10 +5,10 @@ After=network.target postgresql.service
 Requires=postgresql.service
 
 [Service]
-User=frota
-WorkingDirectory=/opt/frota
-EnvironmentFile=/opt/frota/frota.env
-ExecStart=/usr/bin/java -Xms128m -Xmx512m -jar /opt/frota/frota-api.jar
+User=ubuntu
+WorkingDirectory=/home/ubuntu
+EnvironmentFile=/home/ubuntu/frota.env
+ExecStart=/usr/bin/java -Xms128m -Xmx512m -jar /home/ubuntu/frota-api.jar
 SuccessExitStatus=143
 Restart=always
 RestartSec=5

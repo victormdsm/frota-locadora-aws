@@ -102,23 +102,20 @@ scp -i "chave aula.pem" backend/target/demo-0.0.1-SNAPSHOT.jar ubuntu@3.148.244.
 scp -r -i "chave aula.pem" frontend/dist/aula4_turmab/browser ubuntu@3.148.244.143:~
 ```
 
-Os arquivos chegam na pasta do usuário `ubuntu` no servidor (`/home/ubuntu`): o `frota-api.jar` e a pasta `browser`. Os passos 7 e 8 movem cada um para o lugar certo.
+Os arquivos chegam na pasta do usuário `ubuntu` no servidor (`/home/ubuntu`): o `frota-api.jar`, que o passo 7 roda dali mesmo, e a pasta `browser`, que o passo 8 copia para o Apache.
 
 ## 7. Rodar a API como serviço (servidor)
 
-Crie o usuário que vai rodar a API e mova o jar:
+A API roda com o próprio usuário `ubuntu`, a partir do jar que chegou no passo 6.
 
 ```bash
-sudo useradd --system --shell /usr/sbin/nologin frota
-sudo mkdir -p /opt/frota
-sudo mv ~/frota-api.jar /opt/frota/
 openssl rand -base64 48
 ```
 
-Copie o resultado do `openssl`. Ele é o segredo que assina os tokens de login.
+Copie o resultado. Ele é o segredo que assina os tokens de login.
 
 ```bash
-sudo nano /opt/frota/frota.env
+nano ~/frota.env
 ```
 
 Cole, trocando `SENHA_DO_BANCO` pela senha do passo 4 e `RESULTADO_DO_OPENSSL` pelo que você copiou:
@@ -135,8 +132,7 @@ CORS_ORIGINS=http://3.148.244.143
 Salve com `Ctrl+O`, `Enter`, `Ctrl+X`. Depois:
 
 ```bash
-sudo chown -R frota:frota /opt/frota
-sudo chmod 600 /opt/frota/frota.env
+chmod 600 ~/frota.env
 sudo nano /etc/systemd/system/frota-api.service
 ```
 
@@ -195,8 +191,6 @@ Abra `http://3.148.244.143`.
 Repita os passos 5 e 6 na sua máquina. No servidor:
 
 ```bash
-sudo mv ~/frota-api.jar /opt/frota/
-sudo chown frota:frota /opt/frota/frota-api.jar
 sudo systemctl restart frota-api
 sudo rm -rf /var/www/frota/*
 sudo cp -r ~/browser/* /var/www/frota/
@@ -211,5 +205,5 @@ sudo chown -R www-data:www-data /var/www/frota
 | SSH dá timeout | confira a porta 22 no Security Group e se o IP da EC2 mudou |
 | site não abre de fora | passo 9 |
 | login diz que não conectou | `apiUrl` do passo 5 ou porta 8080 fechada |
-| erro de CORS no navegador | corrija `CORS_ORIGINS` no `frota.env` e rode `sudo systemctl restart frota-api` |
+| erro de CORS no navegador | corrija `CORS_ORIGINS` no `~/frota.env` e rode `sudo systemctl restart frota-api` |
 | API não sobe | `sudo journalctl -u frota-api -n 50` |
